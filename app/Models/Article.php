@@ -10,7 +10,6 @@ class Article extends Model
     use HasFactory;
 
     
-    
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -25,6 +24,5 @@ class Article extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 
 }

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\Article;
-
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,18 +22,24 @@ use App\Models\Article;
 Route::get('/', function () {
     $articles = Article::with('tags', 'category', 'user:id,name')->latest()->get();
 
+    $users = DB::table('users')->where('id', '<>', Auth::id())->distinct()->get();
+
     return Inertia::render('Home', [
-        'articles' => $articles,
+        'users' => $users,
         'canRegister' => Route::has('register'),
         'canLogin' => Route::has('login'),
     ]);
-
 })->name('Home');
+
+Route::get('blogger/{username}', function (string $username) {
+    return Inertia::render('UserSpace');
+})->name('userspace');
 
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard/Index');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::prefix('dashboard')->group(function () {
     Route::resource('articles', ArticleController::class);

@@ -1,32 +1,33 @@
 <template>
-   <article class="p-6 rounded w-1/6 bg-slate-300">
-        <header>
-            <figure class="flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <div class="flex flex-col ml-3">
-                    <figcaption class=" text-sm ">{{ article.user.name }}</figcaption>
-                    <span class="text-xs text-neutral-600 inline">12-4-2023</span>
-                </div>
-            </figure>
-            <!-- <img src="" alt="author avatar"> -->
-        </header>
-        <main>
-            <p class="p-3">
-                {{article.title}}
+   <article class="flex laptop:text-base w-4/5">
+        <img src="../../images/react-logo.png" class="border rounded-full h-40 w-40 object-contain" alt="blog image">
+        <div class="ml-4">
+            <h2 class="font-bold text-2xl">Using react in a large project and small project differences</h2>
+            <ul class="p-2 flex gap-x-3 text-slate-500">
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+                    </svg>
+                    <span class="text-xs font-thin">
+                        June 18, 2019
+                    </span>
+                </li>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776" />
+                    </svg>
+                    <span class="text-xs font-thin">
+                        Front-end
+                    </span>
+                </li>
+            </ul>
+            <p class="h-2/4 p-2 text-base text-ellipsis overflow-hidden font-thin">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
             </p>
-            <div class="flex" v-for="tag in article.tags">
-                <!-- tags section  -->
-                <Tag>
-                    {{ tag.name }}
-                </Tag>
-            </div>
-        </main>
-        <!-- link to read more about the blog -->
-        <footer class="mt-2 text-blue-700">
-            <Link :href="route('Home')">Read More &rarr;</Link>
-        </footer>
+            <Link class="font-thin text-sm text-sky-500" href="#">Read More ></Link>
+        </div>
    </article>
 </template>
 
@@ -41,12 +42,5 @@ export default {
         Tag,
         Link
     },
-    props: {
-        article: Object
-    },
-    mounted() {
-        // Log the value of myProperty to the console
-        // console.log(this.article);
-    }
 };
 </script>

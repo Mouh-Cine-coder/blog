@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\Editor;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,6 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
-});
+// Broadcast::channel('article-html.{editorId}', function (User $user, int $editorId) {
+//     return $user->id === Editor::firstWhere('id', $editorId)->user_id;
+// });

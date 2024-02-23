@@ -2,11 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ArticleParsed;
 use App\Http\Requests\StoreArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
+use App\Models\Editor;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\MarkdownConverter;
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\Extension\InlinesOnly\InlinesOnlyExtension;
+use League\CommonMark\Extension\SmartPunct\SmartPunctExtension;
+use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
+use League\CommonMark\Event\DocumentParsedEvent;
+
 
 class ArticleController extends Controller
 {
@@ -19,7 +30,7 @@ class ArticleController extends Controller
         $articles = Article::where('user_id', $user->id)->with('category:id,name')->get();
 
         return Inertia::render('Dashboard/ManageArticles', [
-            'articles' => $articles
+            'articles' => $articles,
         ]);
     }
 
@@ -28,7 +39,11 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Dashboard/CreateArticle');
+        $editor = Editor::firstWhere('user_id', Auth::id());
+
+        return Inertia::render('Dashboard/CreateArticle', [
+            'editor' => $editor
+        ]);
     }
 
     /**
@@ -36,8 +51,7 @@ class ArticleController extends Controller
      */
     public function store(StoreArticleRequest $request)
     {
-        $my_request = request();
-        dd($my_request);$this->warn('Message');
+       
     }
 
     /**
