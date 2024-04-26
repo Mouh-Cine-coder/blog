@@ -3,11 +3,9 @@ import { Head, Link } from '@inertiajs/vue3';
 import  Blog  from '../Components/Blog.vue';
 import UserCard from '../Components/UserCard.vue'
 import Dropdown from '@/Components/Dropdown.vue';
+import DropdownLink from '@/Components/DropdownLink.vue';
 import ThemeController from '@/Components/ThemeController.vue';
 
-
-
-// const { system, store } = useColorMode();
 
 export default {
     components: {
@@ -15,6 +13,7 @@ export default {
         Link,
         ThemeController,
         Dropdown,
+        DropdownLink,
         Blog,
         UserCard
     },
@@ -25,8 +24,10 @@ export default {
     methods: {
         //
     },
+    mounted() {
+        // console.log(this.users);
+    }
 };
-
 </script>
 
 <template>
@@ -37,15 +38,28 @@ export default {
     >
         <nav class="flex justify-between items-center p-5 w-full dark:border-b-[0.1px] dark:border-slate-600 border-b-[0.1px] border-slate-300">
             <h1 class="text-gray-600 dark:text-white">This is blog</h1>
-
             <div v-if="canLogin" class="flex text-end">
-                <Link
+                <Dropdown 
                     v-if="$page.props.auth.user"
-                    :href="route('dashboard')"
-                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >Dashboard</Link
-                >
-
+                    align="right" width="48"                
+                    >
+                    <template #trigger>
+                        <div class="flex items-center">
+                            <img src="../../images/person1.jpg" alt="blogger personal picture"
+                                class="h-7 w-7 rounded-full object-cover m-auto">
+                                <!-- might change only for debugging -->
+                            <span class="ml-2">{{ $page.props.auth.user.name }}</span>
+                        </div>
+                    </template>
+                    <template #content>
+                        <DropdownLink :href="route('userArticles', [$page.props.auth.user.id])">my space</DropdownLink>
+                        <DropdownLink :href="route('logout')" method="post" as="button">
+                            Log Out
+                        </DropdownLink>
+                    </template>
+                </Dropdown>
+               
+               
                 <template v-else>
                     <Link
                         :href="route('login')"
@@ -68,7 +82,7 @@ export default {
         </nav>
 
         <main class="flex flex-row flex-wrap h-full  gap-x-5 gap-y-1.5 p-4 laptop:text-sm desktop:text-base"> 
-            <UserCard v-for="user in users" :name="user.name" :key="user.id" />
+            <UserCard v-for="user in users" :blogger="user" :key="user.id" />
         </main>
     </div>
 </template>

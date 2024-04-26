@@ -2,7 +2,7 @@
    <article class="flex laptop:text-base w-4/5">
         <img src="../../images/react-logo.png" class="border rounded-full h-40 w-40 object-contain" alt="blog image">
         <div class="ml-4">
-            <h2 class="font-bold text-2xl">Using react in a large project and small project differences</h2>
+            <h2 class="font-bold text-2xl">{{ article.title }}</h2>
             <ul class="p-2 flex gap-x-3 text-slate-500">
                 <li>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block">
@@ -22,9 +22,7 @@
                 </li>
             </ul>
             <p class="h-2/4 p-2 text-base text-ellipsis overflow-hidden font-thin">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                {{ article.body }}
             </p>
             <Link class="font-thin text-sm text-sky-500" href="#">Read More ></Link>
         </div>
@@ -42,5 +40,11 @@ export default {
         Tag,
         Link
     },
+    props: {
+        article: Object
+    },
+    mounted() {
+        //console.log(this.article)
+    }
 };
 </script>

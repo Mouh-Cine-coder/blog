@@ -2,22 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\Article;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
+use App\Models\User;
+use App\Models\Article;
 
-class UserController extends Controller
+
+class BloggerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {   
-       //
+        $users = DB::table('users')->where('id', '<>', Auth::id())->distinct()->get();
+
+        return Inertia::render('Home', [
+            'user', Auth::user(),
+            'users' => $users,
+            'canRegister' => Route::has('register'),
+            'canLogin' => Route::has('login'),
+        ]);
     }
 
     /**
@@ -39,17 +47,23 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(Request $request, string $id)
     {
+        $blogger = User::find($id);
+        
+
+        $articles = Article::with('tags')->where('user_id', $id)->get();
+
         return Inertia::render('UserSpace', [
-            'blogger' => $user
+            'blogger' => $blogger,
+            'articles' => $articles,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(string $id)
     {
         //
     }
@@ -57,7 +71,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -65,7 +79,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(string $id)
     {
         //
     }

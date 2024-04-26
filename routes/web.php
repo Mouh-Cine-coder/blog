@@ -1,12 +1,11 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\BloggerController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Models\Article;
-use App\Models\User;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,37 +18,20 @@ use App\Models\User;
 |
 */
 
-Route::get('/', function () {
-    $articles = Article::with('tags', 'category', 'user:id,name')->latest()->get();
+Route::get('/', [BloggerController::class, 'index'])->name('Home');
 
-    $users = DB::table('users')->where('id', '<>', Auth::id())->distinct()->get();
+Route::get('blogger/{id}/', [BloggerController::class, 'show'])->name('blogger.show');
 
-    return Inertia::render('Home', [
-        'users' => $users,
-        'canRegister' => Route::has('register'),
-        'canLogin' => Route::has('login'),
-    ]);
-})->name('Home');
-
-Route::get('blogger/{username}', function (string $username) {
-    return Inertia::render('UserSpace');
-})->name('userspace');
-
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard/Index');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-
-Route::prefix('dashboard')->group(function () {
-    Route::resource('articles', ArticleController::class);
-
-})->middleware(['auth']);
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('blogger/{id}/posts', [ArticleController::class, 'showUserArticles'])->name('userArticles');
+    Route::get('blogger/{id}/create-article', [ArticleController::class, 'create'])->name('createArticle');
+    Route::get('blogger/{id}/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('blogger/{id}/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('blogger/{id}/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
 
 require __DIR__.'/auth.php';

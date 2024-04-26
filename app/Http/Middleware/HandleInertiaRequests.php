@@ -5,6 +5,9 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
+
 
 class HandleInertiaRequests extends Middleware
 {
@@ -30,10 +33,22 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $current_user = User::where('id', $request->id)->first();
+        $isAuthorized = false;
+
+        if($current_user != null) {
+            if (Gate::allows('show-edit', $current_user)) {
+                $isAuthorized = true;
+            }
+        }
+        
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+            ],
+            'authorization' => [
+                'edit_profile_authorization' => $isAuthorized
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),

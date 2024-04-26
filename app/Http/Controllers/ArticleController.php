@@ -24,25 +24,24 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function showUserArticles(string $id) 
     {
-        $user = Auth::user();
-        $articles = Article::where('user_id', $user->id)->with('category:id,name')->get();
+        // to be indexed
+        $userArticles = Article::with('category')
+            ->where('user_id', $id)
+            ->get();
 
-        return Inertia::render('Dashboard/ManageArticles', [
-            'articles' => $articles,
+        return Inertia::render('Articles/ShowArticles', [
+            'articles' => $userArticles
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(String $id)
     {
-        $editor = Editor::firstWhere('user_id', Auth::id());
-
-        return Inertia::render('Dashboard/CreateArticle', [
-            'editor' => $editor
+        return Inertia::render('CreateArticle', [
         ]);
     }
 

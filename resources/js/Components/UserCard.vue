@@ -5,18 +5,20 @@ import { Head, Link } from '@inertiajs/vue3';
             Link
         },
         props: {
-            name: String,
             userImageURL: String,
-            // rank
-            // posts number
-            // reviews
+            blogger: Object
+        },
+        computed: {
+            user() {
+                return this.$page.props.auth.user;
+            }
         }
     }    
 </script>
 
 
 <template>
-    <Link :href="route('userspace', [ name ])">
+    <Link :href="route('userArticles', [ blogger.id ])" >
         <article class="w-96 border bg-transparent border-gray-300 rounded-md dark:border-red-white">
             <header class="pt-5 pl-5">
                 <figure class="flex items-center">
@@ -27,16 +29,14 @@ import { Head, Link } from '@inertiajs/vue3';
                     </svg> -->
                     <img src="../../images/person1.jpg" class="h-9 w-9 rounded-full object-cover" alt="user image">
                     <div class="flex flex-col ml-3">
-                        <figcaption class="">{{ name }}</figcaption>
+                        <figcaption class="">{{ blogger.name }}</figcaption>
                     </div>
                 </figure>
                 <!-- <img src="" alt="author avatar"> -->
             </header>
             <blockquote class="p-5">
                 <p class="py-2">
-                    John Doe is a passionate blogger with a knack for storytelling and a keen eye for detail. His writing style
-                    is engaging,
-                    often drawing readers in with vivid descriptions and relatable anecdotes.
+                    {{ blogger.description }}
                 </p>
                 <div class="flex gap-x-3 flex-wrap">
                     <!-- tags section  -->
@@ -60,11 +60,11 @@ import { Head, Link } from '@inertiajs/vue3';
                     </li>
                     <li class="p-2 text-center w-1/3">
                         Review
-                        <span class="block">4/5</span>
+                        <span class="block">{{ blogger.review }}/5</span>
                     </li>
                     <li class="p-2 border-l border-gray-300 text-center w-1/3">
-                        Review
-                        <span class="block">#5</span>
+                        Rank
+                        <span class="block">#{{ blogger.rank }}</span>
                     </li>
                 </ul>
             </footer>

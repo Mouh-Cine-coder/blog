@@ -16,13 +16,21 @@ export default {
     props: {
         mustVerifyEmail: Boolean,
         status: String
+    },
+    computed: {
+        user() {
+            return this.$page.props.auth.user;
+        }
     }
 };
 </script>
 
 <template>
     <UserSpaceLayout>
-        <div class="p-4 w-4/5">
+        <template #username>
+            {{ user.name }}
+        </template>  
+        <div class="p-12 w-full">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                     <UpdateProfileInformationForm :must-verify-email="mustVerifyEmail" :status="status" class="max-w-xl" />
